@@ -8,29 +8,28 @@ APPIMAGE_PATH="$INSTALL_DIR/WebAD.AppImage"
 DESKTOP_FILE="$HOME/.local/share/applications/webad.desktop"
 ICON_PATH="$HOME/.local/share/icons/webad.png"
 
-REPO="https://github.com/Ad6211/WebAD"
-APPIMAGE_URL="https://github.com/Ad6211/WebAD/releases/latest/download/WebAD.AppImage"
+APPIMAGE_URL="https://github.com/Ad6211/WebAD/releases/download/v1.0/WebAD-x86_64.AppImage"
 ICON_URL="https://raw.githubusercontent.com/Ad6211/WebAD/main/icon.png"
 
 echo "🚀 Installing $APP_NAME..."
 
-# 1. Create folders
+# folders
 mkdir -p "$INSTALL_DIR"
 mkdir -p "$HOME/.local/share/applications"
 mkdir -p "$HOME/.local/share/icons"
 
-# 2. Download AppImage
+# download appimage (FIX IMPORTANT)
 echo "⬇️ Downloading AppImage..."
-wget -q --show-progress -O "$APPIMAGE_PATH" "$APPIMAGE_URL"
+curl -L --fail --progress-bar -o "$APPIMAGE_PATH" "$APPIMAGE_URL"
 
-# 3. Make executable
+# permissions
 chmod +x "$APPIMAGE_PATH"
 
-# 4. Download icon
+# icon
 echo "🎨 Downloading icon..."
-wget -q -O "$ICON_PATH" "$ICON_URL"
+curl -L --fail --progress-bar -o "$ICON_PATH" "$ICON_URL"
 
-# 5. Create .desktop file (menu integration)
+# desktop entry
 echo "🖥️ Creating desktop entry..."
 cat > "$DESKTOP_FILE" <<EOF
 [Desktop Entry]
@@ -44,8 +43,8 @@ Categories=Network;WebBrowser;
 StartupNotify=true
 EOF
 
-# 6. Update desktop database (safe ignore if missing)
+# refresh menu (safe)
 update-desktop-database "$HOME/.local/share/applications" >/dev/null 2>&1 || true
 
 echo "✅ Installation complete!"
-echo "👉 Launch WebAD from your application menu (Internet category)"
+echo "👉 Open your menu (Internet category)"
